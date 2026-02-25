@@ -27,8 +27,7 @@ namespace CentralTestTPL
         public static string FtpBackupFolder { get; set; }
         public static string SSHKeyFingerprint { get; set; }
         public static string WaferFileDestination { get; set; }
-        public static string WaferFileDestination3 { get; set; }
-
+        public static string WaferFileDestination2 { get; set; }
     }
 
     public class Paths
