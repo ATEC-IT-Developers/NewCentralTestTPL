@@ -14,6 +14,8 @@ namespace CentralTestTPL
     {
         public static string Emp_No { get; set; }
         public static string CustomerCodes { get; set; }
+        public static string Emp_Name { get; set; }
+        public static string Password { get; set; }        
     }
 
     public class FTPInfo
@@ -69,8 +71,7 @@ namespace CentralTestTPL
         public static Int64 RecipeCode { get; set; }
         public static string StageID { get; set; }
         public static string TestProgramFolder { get; set; }
-        public static string FinalTestProgram { get; set; }
-        public static string QATestProgram { get; set; }
+        public static string TestProgram { get; set; }
         public static string LBoard { get; set; }
         public static string Hibs { get; set; }
         public static string TPLCable { get; set; }
@@ -79,7 +80,13 @@ namespace CentralTestTPL
         public static string Reel { get; set; }
         public static string FTPpath { get; set; }
         public static string LotNaming { get; set; }
+        public static string TPL_Stage { get; set; }
         public static string msg { get; set; }
+    }
+
+    public class NamingSeq
+    {
+        public static Int64 LotNamingSequence { get; set; }
     }
 
     public class Global
@@ -90,6 +97,10 @@ namespace CentralTestTPL
         public static string Handler { get; set; }
         public static string windowsOS { get; set; }
         public static bool hasTestProg { get; set; }
+        public static string LotNaming { get; set; }
+        public static Int64 LotNamingSequence { get; set; }
+        public static string TPLStage { get; set; }
+        public static bool CheckLB { get; set; }
     }
 
     public static class SystemUtils
@@ -142,5 +153,42 @@ namespace CentralTestTPL
         public static string SIDNo { get; set; }
         public static string ErrorMsg { get; set; }
     }
+
+    public class CORR
+    {
+        public static Int64 ID { get; set; }
+        public static string Device { get; set; }
+        public static string LBoard { get; set; }
+        public static string HIBs1 { get; set; }
+        public static string HIBs2 { get; set; }
+        public static string HIBs3 { get; set; }
+        public static string HIBs4 { get; set; }
+        public static string AllHIBs { get; set; }
+        public static string Cable1 { get; set; }
+        public static string Cable2 { get; set; }
+        public static string Cable3 { get; set; }
+        public static string Cable4 { get; set; }
+        public static string AllCable { get; set; }
+        public static string msg { get; set; }
+    }
+
+    public class BINNING
+    {
+        public static Int64 ID { get; set; }
+        public static string Device { get; set; }
+        public static string LBoard { get; set; }
+        public static string HIBs1 { get; set; }
+        public static string HIBs2 { get; set; }
+        public static string HIBs3 { get; set; }
+        public static string HIBs4 { get; set; }
+        public static string AllHIBs { get; set; }
+        public static string Cable1 { get; set; }
+        public static string Cable2 { get; set; }
+        public static string Cable3 { get; set; }
+        public static string Cable4 { get; set; }
+        public static string AllCable { get; set; }
+        public static string msg { get; set; }
+    }
+
 
 }

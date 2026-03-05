@@ -11,11 +11,16 @@ else
     Sleep, 1000
     ControlFocus, Edit1, Please login
     Sleep, 500
-    Send, engg
+    inputFile := "C:\ITfolder\TPL\AutoFillDetails.txt"
+    FileRead, fileContent, %inputFile%
+    fileContent := StrReplace(fileContent, "`r", "")
+    StringSplit, param, fileContent,`n
+    Sleep, 500
+    Send, %param5%
     Sleep, 500
     Send, {TAB}
     Sleep, 500
-    Send, tdeeng
+    Send, %param6%
     Sleep, 500
     Send, {TAB}
     Sleep, 500
