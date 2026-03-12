@@ -37,8 +37,17 @@ namespace CentralTestTPL
             SendKeys.Send("{ENTER}");     // Simulate Enter
         }
 
-        private void ShowError(string message) =>
-        MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //private void ShowError(string message) =>
+        //MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        private void ShowError(string message, TextBox txtbox)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            txtbox.Clear();
+            txtbox.Enabled = true;
+            txtbox.Focus();
+            timerStarted = false;
+        }
 
         static string GetLocalIPAddress()
         {
@@ -81,7 +90,7 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(txtMachine.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Tester.\nPlease Scan again.", "", "", "", "", "", GetLocalIPAddress());
-                ShowError("Invalid Tester.\nPlease Scan again.");
+                ShowError("Invalid Tester.\nPlease Scan again.", txtMachine);
                 return;
             }
             else
@@ -113,8 +122,38 @@ namespace CentralTestTPL
                 else
                 {
                     new DataAccess().insertMasterLogs("Tester not found in Database. " + txtMachine.Text, "", "", "", "", "", GetLocalIPAddress());
-                    ShowError("Tester not found in Database.\nPlease Scan again.");
-                    txtMachine.Clear();
+                    ShowError("Tester not found in Database.\nPlease Scan again.", txtMachine);
+                }
+            }
+        }
+
+        private void txtHandler_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!timerStarted)
+            {
+                timerStarted = true;
+                StartTimer();
+            }
+            if (e.KeyChar != (char)Keys.Enter) return;
+            timerStarted = false;
+            if (string.IsNullOrWhiteSpace(txtHandler.Text))
+            {
+                new DataAccess().insertMasterLogs("Invalid Handler.", "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
+                ShowError("Invalid Handler.\nPlease Scan again.", txtHandler);
+                return;
+            }
+            else
+            {
+                if (txtHandler.Text != CentralTest.Handler)
+                {
+                    new DataAccess().insertMasterLogs("Invalid Handler. " + txtHandler.Text, "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
+                    ShowError("Invalid Handler.\nPlease Scan again.", txtHandler);
+                }
+                else
+                {
+                    txtHandler.Enabled = false;
+                    txtUsername.Enabled = true;
+                    txtUsername.Focus();
                 }
             }
         }
@@ -131,7 +170,7 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Employee Number.", "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Employee Number.\nPlease Scan again.");
+                ShowError("Invalid Employee Number.\nPlease Scan again.", txtUsername);
                 return;
             }
             else
@@ -145,43 +184,10 @@ namespace CentralTestTPL
                 else
                 {
                     new DataAccess().insertMasterLogs("Employee Number not found in Database. " + txtUsername.Text, "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Employee Number not found in Database.\nPlease Scan again.");
-                    txtUsername.Clear();
+                    ShowError("Employee Number not found in Database.\nPlease Scan again.", txtUsername);
                 }
             }
 
-        }
-
-        private void txtHandler_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                StartTimer();
-            }
-            if (e.KeyChar != (char)Keys.Enter) return;
-            timerStarted = false;
-            if (string.IsNullOrWhiteSpace(txtHandler.Text))
-            {
-                new DataAccess().insertMasterLogs("Invalid Handler.", "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Handler.\nPlease Scan again.");
-                return;
-            }
-            else
-            {
-                if(txtHandler.Text != CentralTest.Handler)
-                {
-                    new DataAccess().insertMasterLogs("Invalid Handler. " + txtHandler.Text, "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Invalid Handler.\nPlease Scan again.");
-                    txtHandler.Clear();
-                }
-                else
-                {
-                    txtHandler.Enabled = false;
-                    txtUsername.Enabled = true;
-                    txtUsername.Focus();
-                }
-            }
         }
     }
 }

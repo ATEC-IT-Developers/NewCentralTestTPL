@@ -43,9 +43,18 @@ namespace CentralTestTPL
             SendKeys.Send("{ENTER}");     // Simulate Enter
         }
 
-        private void ShowError(string message) =>
-        MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        
+        //private void ShowError(string message) =>
+        //MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        private void ShowError(string message, TextBox txtbox)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            txtbox.Clear();
+            txtbox.Enabled = true;
+            txtbox.Focus();
+            timerStarted = false;
+        }
+
         private void Main_Load(object sender, EventArgs e)
         {
             txtLotnumber.Focus();
@@ -115,7 +124,8 @@ namespace CentralTestTPL
         string customer,
         string path,
         string machine,
-        string ip)
+        string ip,
+        TextBox txtbox)
         {
             var loadForm = new Loading();
             loadForm.Show();
@@ -133,7 +143,7 @@ namespace CentralTestTPL
             if (!exists)
             {
                 dataAccess.insertMasterLogs(notExistMessage, lot, device, customer, path, machine, ip);
-                ShowError(notExistMessage);
+                ShowError(notExistMessage, txtbox);
                 loadForm.Hide();
                 return false;
             }
@@ -142,7 +152,7 @@ namespace CentralTestTPL
             {
                 string msg = $"Change Device., Please Perform {processName}, Last Run Device: {Testdevice}, LTC Device: {device}";
                 dataAccess.insertMasterLogs(msg, lot, device, customer, path, machine, ip);
-                ShowError(msg.Replace(", ", "\n"));
+                ShowError(msg.Replace(", ", "\n"), txtbox);
                 loadForm.Hide();
                 return false;
             }
@@ -151,7 +161,7 @@ namespace CentralTestTPL
             {
                 string msg = $"{processName} {testmsg}";
                 dataAccess.insertMasterLogs(msg, lot, device, customer, path, machine, ip);
-                ShowError(msg);
+                ShowError(msg, txtbox);
                 loadForm.Hide();
                 return false;
             }
@@ -172,7 +182,7 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(txtLotnumber.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Lot.", txtLotnumber.Text, "", "", "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Lot.\nPlease Scan again.");
+                ShowError("Invalid Lot.\nPlease Scan again.", txtLotnumber);
                 return;
             }
             else
@@ -193,15 +203,15 @@ namespace CentralTestTPL
                         // Validate Test Correlation
                         if (!ValidateProcess(dataAccess, "-CORR",
                             "Please Perform Test Correlation.",
-                            "Test Correlation.",
-                            lot, device, customer, path, machine, ip))
+                            "Test Correlation ",
+                            lot, device, customer, path, machine, ip, txtLotnumber))
                             return;
 
                         // Validate Binning Consistency
                         if (!ValidateProcess(dataAccess, "-BINCON",
                             "Please Perform Binning Consistency Check.",
-                            "Binning Consistency.",
-                            lot, device, customer, path, machine, ip))
+                            "Binning Consistency Check ",
+                            lot, device, customer, path, machine, ip, txtLotnumber))
                             return;
 
                         txtDetailLotnumber.Text = LotInfo.LotNumber;
@@ -230,14 +240,12 @@ namespace CentralTestTPL
                     }
                     else {
                         new DataAccess().insertMasterLogs("Operator not qualified. " + User.Emp_No, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                        ShowError("Operator not qualified.");
-                        txtLotnumber.Clear();
+                        ShowError("Operator not qualified.", txtLotnumber);
                         return;
                     }
                 } else {
-                    new DataAccess().insertMasterLogs("Lot not found.", txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Lot not found.\nPlease Scan again.");
-                    txtLotnumber.Clear();
+                    new DataAccess().insertMasterLogs("Lot not found.", txtLotnumber.Text, "", "", "", CentralTest.MachineName, GetLocalIPAddress());
+                    ShowError("Lot not found.\nPlease Scan again.", txtLotnumber);
                     return;
                 }
             }
@@ -281,15 +289,14 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(currentTextBox.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid {itemName}.", txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError($"Invalid {itemName}.\nPlease Scan again.");
+                ShowError($"Invalid {itemName}.\nPlease Scan again.", currentTextBox);
                 return;
             }
 
             if (!IsInRange(currentTextBox.Text.Trim(), expectedValue))
             {
                 new DataAccess().insertMasterLogs($"{itemName} not Match in Database.", txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError($"{itemName} not Match in Database.\nPlease Scan again.");
-                currentTextBox.Clear();
+                ShowError($"{itemName} not Match in Database.\nPlease Scan again.", currentTextBox);
                 return;
             }
 
@@ -307,7 +314,7 @@ namespace CentralTestTPL
                 nextTextBox.Focus();
             }
         }
-        
+
         private void txtLBoard_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!timerStarted)
@@ -323,11 +330,8 @@ namespace CentralTestTPL
             if (Global.CheckLB == true && CORR.LBoard != "" && txtLBoard.Text != CORR.LBoard)
             {
                 new DataAccess().insertMasterLogs("Load Board Change. Please Perform Test Correlation and Please Perform Binning Consistency Check." + txtLBoard.Text + ", " + CORR.LBoard, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), CentralTest.EngDatalogPath, CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Load Board Change./nPlease Perform Test Correlation and Please Perform Binning Consistency Check.");
+                ShowError("Load Board Change./nPlease Perform Test Correlation and Please Perform Binning Consistency Check.", txtLBoard);
                 txtHIBs.Enabled = false;
-                txtLBoard.Enabled = true;
-                txtLBoard.Clear();
-                txtLBoard.Focus();
                 return;
             }
         }
@@ -352,7 +356,7 @@ namespace CentralTestTPL
             if (_validatedScans.Contains(txtBox))
             {
                 message = $"{hardware} already scanned.\nRescanning is not allowed.";
-                ShowError(message);
+                ShowError(message, txtBox);
                 DataAccess da = new DataAccess();
                 da.insertMasterLogs(
                     message,
@@ -365,6 +369,9 @@ namespace CentralTestTPL
                 );
                 return;
             }
+
+            // ✅ SUCCESS
+            _validatedScans.Add(txtBox);   // Mark as successfully scanned
 
             HandleScan(e, txtBox, expectedValue, nxtTxtbox, hardware, group);
 
@@ -385,17 +392,12 @@ namespace CentralTestTPL
                         CentralTest.MachineName,
                         GetLocalIPAddress()
                     );
-                    ShowError(message);
                     nxtTxtbox.Enabled = false;
-                    txtBox.Enabled = true;
-                    txtBox.Clear();
-                    txtBox.Focus();
+                    ShowError(message, txtBox);
                     return;
                 }
             }
 
-            // ✅ SUCCESS
-            _validatedScans.Add(txtBox);   // Mark as successfully scanned
         }
 
         private void txtHIBs_KeyPress(object sender, KeyPressEventArgs e)
@@ -450,23 +452,21 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(txtCarrierLot.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid Carrier Lot. " + txtCarrierLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Carrier Lot.\nPlease Scan again.");
+                ShowError("Invalid Carrier Lot.\nPlease Scan again.", txtCarrierLot);
                 return;
             }
             else {
                 var mat = new DataAccess().AXCheckMaterial(txtCarrierLot.Text, txtCarrierID.Text);
                 if (mat.Count <= 0) {
                     new DataAccess().insertMasterLogs($"Carrier Lot not found in AX. " + txtCarrierLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Carrier Lot not found in AX.\nPlease Scan again.");
-                    txtCarrierLot.Clear();
+                    ShowError("Carrier Lot not found in AX.\nPlease Scan again.", txtCarrierLot);
                     return;
                 }
                 else {
                     if (AXMaterial.ErrorMsg != "")
                     {
                         new DataAccess().insertMasterLogs(AXMaterial.ErrorMsg + " " + txtCarrierLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                        ShowError(AXMaterial.ErrorMsg);
-                        txtCarrierLot.Clear();
+                        ShowError(AXMaterial.ErrorMsg, txtCarrierLot);
                         return;
                     }
                     else
@@ -498,8 +498,7 @@ namespace CentralTestTPL
                                                                                              txtCable2.Text + "," +
                                                                                              txtCable3.Text + "," +
                                                                                              txtCable4.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                                ShowError("Please Scan again.");
-                                txtCarrierLot.Clear();
+                                ShowError("Please Scan again.", txtCarrierLot);
                                 return;
                             }
                         }
@@ -527,7 +526,7 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(txtCoverLot.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid Cover Lot. " + txtCoverLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Cover Lot.\nPlease Scan again.");
+                ShowError("Invalid Cover Lot.\nPlease Scan again.", txtCoverLot);
                 return;
             }
             else {
@@ -535,8 +534,7 @@ namespace CentralTestTPL
                 if (mat.Count <= 0)
                 {
                     new DataAccess().insertMasterLogs($"Cover Lot not found in AX. " + txtCoverLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Cover Lot not found in AX.\nPlease Scan again.");
-                    txtCoverLot.Clear();
+                    ShowError("Cover Lot not found in AX.\nPlease Scan again.", txtCoverLot);
                     return;
                 }
                 else
@@ -544,8 +542,7 @@ namespace CentralTestTPL
                     if (AXMaterial.ErrorMsg != "")
                     {
                         new DataAccess().insertMasterLogs(AXMaterial.ErrorMsg + " " + txtCoverLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                        ShowError(AXMaterial.ErrorMsg);
-                        txtCoverLot.Clear();
+                        ShowError(AXMaterial.ErrorMsg, txtCoverLot);
                         return;
                     }
                     else
@@ -570,7 +567,7 @@ namespace CentralTestTPL
             if (string.IsNullOrWhiteSpace(txtReelLot.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid Reel Lot. " + txtReelLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Reel Lot.\nPlease Scan again.");
+                ShowError("Invalid Reel Lot.\nPlease Scan again.", txtReelLot);
                 return;
             }
             else {
@@ -578,16 +575,14 @@ namespace CentralTestTPL
                 if (mat.Count <= 0)
                 {
                     new DataAccess().insertMasterLogs($"Reel Lot not found in AX. " + txtReelLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Reel Lot not found in AX.\nPlease Scan again.");
-                    txtReelLot.Clear();
+                    ShowError("Reel Lot not found in AX.\nPlease Scan again.", txtReelLot);
                     return;
                 }else
                 {
                     if (AXMaterial.ErrorMsg != "")
                     {
                         new DataAccess().insertMasterLogs(AXMaterial.ErrorMsg + " " + txtReelLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                        ShowError(AXMaterial.ErrorMsg);
-                        txtReelLot.Clear();
+                        ShowError(AXMaterial.ErrorMsg, txtReelLot);
                         return;
                     }
                     else
@@ -752,8 +747,7 @@ namespace CentralTestTPL
             timerStarted = false;
             if (cmbTestProg.SelectedItem?.ToString() != txtTestProgram.Text) {
                 new DataAccess().insertMasterLogs("Invalid Testprogram not match. " + txtTestProgram.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid Testprogram not match.\nPlease Scan again.");
-                txtTestProgram.Clear();
+                ShowError("Invalid Testprogram not match.\nPlease Scan again.", txtTestProgram);
                 return;
             } else {
                 var loadForm = new Loading(); loadForm.Show();
@@ -766,8 +760,7 @@ namespace CentralTestTPL
 
                 if (!Global.hasTestProg) {
                     new DataAccess().insertMasterLogs("Test Program not available in the server. " + LotInfo.TestProgramFolder, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), FTPPath, CentralTest.MachineName, GetLocalIPAddress());
-                    ShowError("Test Program not available in the server.\nPlease contact engineer.");
-                    txtTestProgram.Clear();
+                    ShowError("Test Program not available in the server.\nPlease contact engineer.", txtTestProgram);
                 }
                 else
                 {
@@ -786,6 +779,7 @@ namespace CentralTestTPL
                 StartTimer();
             }
             if (e.KeyChar != (char)Keys.Enter) return;
+
             timerStarted = false;
 
             var list = LotInfo.LotNaming.Split(',');
@@ -812,15 +806,32 @@ namespace CentralTestTPL
 
                 if (result == "Q")
                 {
-                    Global.TPLStage = "QA";
+                    Global.CurrentTPLStage = "QA";
                 }
                 else if (result == "FR")
                 {
-                    Global.TPLStage = "Retest";
+                    Global.CurrentTPLStage = "Retest";
+                }
+                else if (result == "FL")
+                {
+                    Global.CurrentTPLStage = "Leads";
                 }
                 else
                 {
-                    Global.TPLStage = "Test";
+                    Global.CurrentTPLStage = "Test";
+                }
+
+                if (LotInfo.FirstTest == true && result != "FT")
+                {
+                    new DataAccess().insertMasterLogs("Invalid lot naming. Please scan. " + LotInfo.TPL_Stage + " Lot naming format " + cmbTestProg.SelectedItem?.ToString() + " " + txtLotNaming.Text,
+                                                       txtLotnumber.Text,
+                                                       LotInfo.Device,
+                                                       LotInfo.CustomerCode.ToString(),
+                                                       "",
+                                                       CentralTest.MachineName,
+                                                       GetLocalIPAddress());
+                    ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
+                    return;
                 }
 
                 if (prgresult == "QC.prg" && result != "Q")
@@ -832,22 +843,7 @@ namespace CentralTestTPL
                                                        "",
                                                        CentralTest.MachineName,
                                                        GetLocalIPAddress());
-                    ShowError("Invalid lot naming.\nPlease scan. QA Lot naming format");
-                    txtLotNaming.Clear();
-                    return;
-                }
-
-                if (Global.TPLStage == "Retest" && result == "FT")
-                {
-                    new DataAccess().insertMasterLogs("Invalid lot naming. Please scan. " + LotInfo.TPL_Stage + " Lot naming format " + cmbTestProg.SelectedItem?.ToString() + " " + txtLotNaming.Text,
-                                                       txtLotnumber.Text,
-                                                       LotInfo.Device,
-                                                       LotInfo.CustomerCode.ToString(),
-                                                       "",
-                                                       CentralTest.MachineName,
-                                                       GetLocalIPAddress());
-                    ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format");
-                    txtLotNaming.Clear();
+                    ShowError("Invalid lot naming.\nPlease scan. QA Lot naming format", txtLotNaming);
                     return;
                 }
 
@@ -860,12 +856,26 @@ namespace CentralTestTPL
                                                        "",
                                                        CentralTest.MachineName,
                                                        GetLocalIPAddress());
-                    ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format");
+                    ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
+                    return;
+                }
+
+                if (Global.TPLStage == "Retest" && result == "FT")
+                {
+                    new DataAccess().insertMasterLogs("Invalid lot naming. Please scan. " + LotInfo.TPL_Stage + " Lot naming format " + cmbTestProg.SelectedItem?.ToString() + " " + txtLotNaming.Text,
+                                                       txtLotnumber.Text,
+                                                       LotInfo.Device,
+                                                       LotInfo.CustomerCode.ToString(),
+                                                       "",
+                                                       CentralTest.MachineName,
+                                                       GetLocalIPAddress());
+                    ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
                     txtLotNaming.Clear();
                     return;
                 }
 
-                var LotSeq = new DataAccess().GetLotNamingSeq(Global.TPLStage);
+                var LotSeq = new DataAccess().GetLotNamingSeq(Global.CurrentTPLStage);
+
                 if (LotSeq.Count > 0)
                 {
                     txtLotNamingSeq.Text = NamingSeq.LotNamingSequence.ToString();
@@ -893,8 +903,7 @@ namespace CentralTestTPL
             else
             {
                 new DataAccess().insertMasterLogs("Invalid lot naming. " + txtLotNaming.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Invalid lot naming.\nPlease scan ." + LotInfo.TPL_Stage + " Lot naming format");
-                txtLotNaming.Clear();
+                ShowError("Invalid lot naming.\nPlease scan ." + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
             }
         }
 
@@ -928,7 +937,7 @@ namespace CentralTestTPL
             else
             {
                 new  DataAccess().insertMasterLogs("Failed to insert logs. Application will not launch. " + LotInfo.TestProgramFolder, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Failed to insert logs. Application will not launch.\nPlease Try Again.");
+                MessageBox.Show("Failed to insert logs. Application will not launch.\nPlease Try Again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -81,6 +81,7 @@ namespace CentralTestTPL
         public static string FTPpath { get; set; }
         public static string LotNaming { get; set; }
         public static string TPL_Stage { get; set; }
+        public static Boolean FirstTest { get; set; }
         public static string msg { get; set; }
     }
 
@@ -100,6 +101,7 @@ namespace CentralTestTPL
         public static string LotNaming { get; set; }
         public static Int64 LotNamingSequence { get; set; }
         public static string TPLStage { get; set; }
+        public static string CurrentTPLStage { get; set; }
         public static bool CheckLB { get; set; }
     }
 

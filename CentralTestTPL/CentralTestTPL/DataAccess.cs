@@ -338,7 +338,7 @@ namespace CentralTestTPL
             Sqlhandler.SetParameterValues(12, "@TestProgram", SqlDbType.NVarChar, TestProgram);
             Sqlhandler.SetParameterValues(13, "@LotNaming", SqlDbType.NVarChar, Global.LotNaming);
             Sqlhandler.SetParameterValues(14, "@LotNamingSequence", SqlDbType.BigInt, Global.LotNamingSequence);
-            Sqlhandler.SetParameterValues(15, "@TPL_Stage", SqlDbType.NVarChar, Global.TPLStage);
+            Sqlhandler.SetParameterValues(15, "@TPL_Stage", SqlDbType.NVarChar, Global.CurrentTPLStage);
             Sqlhandler.SetParameterValues(16, "@LBoard", SqlDbType.NVarChar, LBoard);
             Sqlhandler.SetParameterValues(17, "@Hibs", SqlDbType.NVarChar, HB1);
             Sqlhandler.SetParameterValues(18, "@Hibs2", SqlDbType.NVarChar, HB2);
