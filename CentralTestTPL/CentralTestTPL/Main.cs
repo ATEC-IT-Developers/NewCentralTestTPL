@@ -18,24 +18,25 @@ namespace CentralTestTPL
     {
         private static string baseDirectory = AppDomain.CurrentDomain.BaseDirectory + "\\";
         private static string AutoFillDetails = Path.Combine(baseDirectory, "AutoFillDetails.txt");
-        private static string CustomerCodeFilePath = Path.Combine(baseDirectory, "CustomerCode.txt");
         private static string LoadTestProg = Path.Combine(baseDirectory, "LaunchApp.exe");
 
         public Main()
         {
             InitializeComponent();
             if (!File.Exists(AutoFillDetails)) File.WriteAllText(AutoFillDetails, "");
-            if (!File.Exists(CustomerCodeFilePath)) File.WriteAllText(CustomerCodeFilePath, "");
         }
 
         private Timer timer = new Timer();
+
         private bool timerStarted = false;
+
         private void StartTimer()
         {
             timer.Interval = 1000; // 1 second
             timer.Tick += Timer_Tick;
             timer.Start();
         }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             timer.Stop();                 // Stop immediately
@@ -220,7 +221,6 @@ namespace CentralTestTPL
                         txtDetailProduct.Text = LotInfo.ProductID;
                         txtDetailPkg.Text = LotInfo.PkgLD;
                         txtDetailLead.Text = LotInfo.LdType;
-                        File.WriteAllText(CustomerCodeFilePath, LotInfo.CustomerCode.ToString());
                         txtCarrierID.Text = LotInfo.CarrierTape;
                         txtCoverID.Text = LotInfo.CoverTape;
                         txtReelID.Text = LotInfo.Reel;
@@ -255,7 +255,7 @@ namespace CentralTestTPL
         {
             var parts = rangeText.Split(',');
 
-            if (parts.Length != 2)
+            if (parts.Length < 2)
                 return false;
 
             string start = parts[0].Trim();
