@@ -178,76 +178,104 @@ namespace CentralTestTPL
                 timerStarted = true;
                 StartTimer();
             }
+
             if (e.KeyChar != (char)Keys.Enter) return;
+            var loadForm = new Loading();
+            loadForm.Show();
+
             timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtLotnumber.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Lot.", txtLotnumber.Text, "", "", "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Lot.\nPlease Scan again.", txtLotnumber);
-                return;
+                loadForm.Hide(); return;
             }
             else
             {
                 var list = new DataAccess().SelectLotInfo(txtLotnumber.Text);
                 if (list.Count > 0) {
                     var allowedCodes = User.CustomerCodes.Split(',');
+
+                    var MachineAllowedCodes = CentralTest.CustomerCodes.Split(',');
+
                     if (allowedCodes.Contains(LotInfo.CustomerCode.ToString())) {
 
-                        var dataAccess = new DataAccess();
-                        string ip = GetLocalIPAddress();
-                        string lot = txtLotnumber.Text;
-                        string device = LotInfo.Device;
-                        string customer = LotInfo.CustomerCode.ToString();
-                        string path = CentralTest.EngDatalogPath;
-                        string machine = CentralTest.MachineName;
+                        //// Validate Test Correlation
 
-                        // Validate Test Correlation
-                        if (!ValidateProcess(dataAccess, "-CORR",
-                            "Please Perform Test Correlation.",
-                            "Test Correlation ",
-                            lot, device, customer, path, machine, ip, txtLotnumber))
-                            return;
+                        //var dataAccess = new DataAccess();
+                        //string ip = GetLocalIPAddress();
+                        //string lot = txtLotnumber.Text;
+                        //string device = LotInfo.Device;
+                        //string customer = LotInfo.CustomerCode.ToString();
+                        //string path = CentralTest.EngDatalogPath;
+                        //string machine = CentralTest.MachineName;
 
-                        // Validate Binning Consistency
-                        if (!ValidateProcess(dataAccess, "-BINCON",
-                            "Please Perform Binning Consistency Check.",
-                            "Binning Consistency Check ",
-                            lot, device, customer, path, machine, ip, txtLotnumber))
-                            return;
+                        //if (!ValidateProcess(dataAccess, "-CORR",
+                        //    "Please Perform Test Correlation.",
+                        //    "Test Correlation ",
+                        //    lot, device, customer, path, machine, ip, txtLotnumber))
+                        //    loadForm.Hide(); return;
 
-                        txtDetailLotnumber.Text = LotInfo.LotNumber;
-                        txtDetailQty.Text = LotInfo.SubLotQty.ToString();
-                        txtDetailDevice.Text = LotInfo.Device;
-                        txtDetailProduct.Text = LotInfo.ProductID;
-                        txtDetailPkg.Text = LotInfo.PkgLD;
-                        txtDetailLead.Text = LotInfo.LdType;
-                        txtCarrierID.Text = LotInfo.CarrierTape;
-                        txtCoverID.Text = LotInfo.CoverTape;
-                        txtReelID.Text = LotInfo.Reel;
-                        Global.TPLStage = LotInfo.TPL_Stage;
-                        txtLotnumber.Enabled = false;
+                        //// Validate Binning Consistency
+                        //if (!ValidateProcess(dataAccess, "-BINCON",
+                        //    "Please Perform Binning Consistency Check.",
+                        //    "Binning Consistency Check ",
+                        //    lot, device, customer, path, machine, ip, txtLotnumber))
+                        //    loadForm.Hide(); return;
 
-                        string[] programs = LotInfo.TestProgram.Split(',');
-                        cmbTestProg.Items.Clear(); // optional but recommended
+                        if (MachineAllowedCodes.Contains(LotInfo.CustomerCode.ToString())) {
+                            txtDetailLotnumber.Text = LotInfo.LotNumber;
+                            txtDetailQty.Text = LotInfo.SubLotQty.ToString();
+                            txtDetailDevice.Text = LotInfo.Device;
+                            txtDetailProduct.Text = LotInfo.ProductID;
+                            txtDetailPkg.Text = LotInfo.PkgLD;
+                            txtDetailLead.Text = LotInfo.LdType;
+                            txtCarrierID.Text = LotInfo.CarrierTape;
+                            txtCoverID.Text = LotInfo.CoverTape;
+                            txtReelID.Text = LotInfo.Reel;
+                            Global.TPLStage = LotInfo.TPL_Stage;
+                            txtLotnumber.Enabled = false;
 
-                        foreach (string prog in programs)
-                        {
-                            cmbTestProg.Items.Add(prog.Trim());
+                            string[] programs = LotInfo.TestProgram.Split(',');
+                            cmbTestProg.Items.Clear(); // optional but recommended
+
+                            foreach (string prog in programs)
+                            {
+                                cmbTestProg.Items.Add(prog.Trim());
+                            }
+
+                            txtLBoard.Enabled = true;
+
+                            if (LotInfo.mlxNonMagnetic == true)
+                            {
+                                var magnet = new MLX_Magnetic();
+                                magnet.Show();
+                                magnet.BringToFront();
+                            }
+                            else
+                            {
+                                txtLBoard.Focus();
+                            }
                         }
-
-                        txtLBoard.Enabled = true;
-                        txtLBoard.Focus();
+                        else
+                        {
+                            new DataAccess().insertMasterLogs("Tester/Handler not qualified. " + CentralTest.MachineName, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
+                            ShowError("Tester/Handler not qualified.", txtLotnumber);
+                            loadForm.Hide(); return;
+                        }
                     }
-                    else {
+                    else
+                    {
                         new DataAccess().insertMasterLogs("Operator not qualified. " + User.Emp_No, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                         ShowError("Operator not qualified.", txtLotnumber);
-                        return;
+                        loadForm.Hide(); return;
                     }
                 } else {
                     new DataAccess().insertMasterLogs("Lot not found.", txtLotnumber.Text, "", "", "", CentralTest.MachineName, GetLocalIPAddress());
                     ShowError("Lot not found.\nPlease Scan again.", txtLotnumber);
-                    return;
+                    loadForm.Hide(); return;
                 }
+                loadForm.Hide();
             }
         }
 
@@ -286,19 +314,57 @@ namespace CentralTestTPL
 
         private void HandleScan(KeyPressEventArgs e, TextBox currentTextBox, string expectedValue, TextBox nextTextBox, string itemName, bool matgroup)
         {
+            var loadForm = new Loading();
+            loadForm.Show();
+
             if (string.IsNullOrWhiteSpace(currentTextBox.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid {itemName}.", txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError($"Invalid {itemName}.\nPlease Scan again.", currentTextBox);
-                return;
+                loadForm.Hide(); return;
             }
 
             if (!IsInRange(currentTextBox.Text.Trim(), expectedValue))
             {
                 new DataAccess().insertMasterLogs($"{itemName} not Match in Database.", txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError($"{itemName} not Match in Database.\nPlease Scan again.", currentTextBox);
-                return;
+                loadForm.Hide(); return;
             }
+
+            string scannedValue = currentTextBox.Text.Trim();
+
+            if (_validatedScannedValues.Contains(scannedValue))
+            {
+                ShowError($"{itemName} already scanned.\nRescanning is not allowed.", currentTextBox);
+                loadForm.Hide(); return;
+            }
+
+            // Validation successful
+            _validatedScannedValues.Add(scannedValue);
+
+            //// 🚫 Prevent rescanning ONLY if already validated
+            //string message = "";
+            //if (_validatedScans.Contains(currentTextBox))
+            //{
+            //    message = $"{itemName} already scanned.\nRescanning is not allowed.";
+            //    ShowError(message, currentTextBox);
+            //    //DataAccess da = new DataAccess();
+            //    //da.insertMasterLogs(
+            //    //    message,
+            //    //    txtLotnumber.Text,
+            //    //    LotInfo.Device,
+            //    //    LotInfo.CustomerCode.ToString(),
+            //    //    CentralTest.EngDatalogPath,
+            //    //    CentralTest.MachineName,
+            //    //    GetLocalIPAddress()
+            //    //);
+            //    loadForm.Hide(); return;
+            //}
+            //else {
+            //    // ✅ SUCCESS
+            //    _validatedScans.Add(currentTextBox);   // Mark as successfully scanned
+            //}
+
 
             currentTextBox.Enabled = false;
             groupBox3.Enabled = matgroup;
@@ -313,6 +379,7 @@ namespace CentralTestTPL
                 nextTextBox.Enabled = true;
                 nextTextBox.Focus();
             }
+            loadForm.Hide();
         }
 
         private void txtLBoard_KeyPress(object sender, KeyPressEventArgs e)
@@ -327,14 +394,16 @@ namespace CentralTestTPL
             Global.CheckLB = false;
             HandleScan(e, txtLBoard, LotInfo.LBoard, txtHIBs, "Load Board", false);
 
-            if (Global.CheckLB == true && CORR.LBoard != "" && txtLBoard.Text != CORR.LBoard)
-            {
-                new DataAccess().insertMasterLogs("Load Board Change. Please Perform Test Correlation and Please Perform Binning Consistency Check." + txtLBoard.Text + ", " + CORR.LBoard, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), CentralTest.EngDatalogPath, CentralTest.MachineName, GetLocalIPAddress());
-                ShowError("Load Board Change./nPlease Perform Test Correlation and Please Perform Binning Consistency Check.", txtLBoard);
-                txtHIBs.Enabled = false;
-                return;
-            }
+            //if (Global.CheckLB == true && CORR.LBoard != "" && txtLBoard.Text != CORR.LBoard)
+            //{
+            //    new DataAccess().insertMasterLogs("Load Board Change. Please Perform Test Correlation and Please Perform Binning Consistency Check." + txtLBoard.Text + ", " + CORR.LBoard, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), CentralTest.EngDatalogPath, CentralTest.MachineName, GetLocalIPAddress());
+            //    ShowError("Load Board Change./nPlease Perform Test Correlation and Please Perform Binning Consistency Check.", txtLBoard);
+            //    txtHIBs.Enabled = false;
+            //    loadForm.Hide(); return;
+            //}
         }
+
+        private HashSet<string> _validatedScannedValues = new HashSet<string>();
 
         private HashSet<TextBox> _validatedScans = new HashSet<TextBox>();
 
@@ -347,57 +416,43 @@ namespace CentralTestTPL
                 timerStarted = true;
                 StartTimer();
             }
-            if (e.KeyChar != (char)Keys.Enter) return;
-            timerStarted = false;
-            string message = "";
-            string logMessage = "";
 
-            // 🚫 Prevent rescanning ONLY if already validated
-            if (_validatedScans.Contains(txtBox))
+            if (e.KeyChar != (char)Keys.Enter) return;
+
+            timerStarted = false;
+
+            if (string.IsNullOrWhiteSpace(txtBox.Text))
             {
-                message = $"{hardware} already scanned.\nRescanning is not allowed.";
-                ShowError(message, txtBox);
-                DataAccess da = new DataAccess();
-                da.insertMasterLogs(
-                    message,
-                    txtLotnumber.Text,
-                    LotInfo.Device,
-                    LotInfo.CustomerCode.ToString(),
-                    CentralTest.EngDatalogPath,
-                    CentralTest.MachineName,
-                    GetLocalIPAddress()
-                );
+                ShowError($"Invalid {hardware}.\nPlease Scan again.", txtBox);
                 return;
             }
 
-            // ✅ SUCCESS
-            _validatedScans.Add(txtBox);   // Mark as successfully scanned
+            //string logMessage = "";
 
             HandleScan(e, txtBox, expectedValue, nxtTxtbox, hardware, group);
 
-            if (!string.IsNullOrEmpty(CORR.LBoard))
-            {
-                bool ok = MatchHardware(txtBox, AllHardware);
-                if (!ok)
-                {
-                    message = $"{hardware} Change.\nPlease Perform Test Correlation and Please Perform Binning Consistency Check.";
-                    logMessage = $"{hardware} Change.\n{message} {txtBox.Text}, {AllHardware}";
-                    DataAccess da = new DataAccess();
-                    da.insertMasterLogs(
-                        logMessage,
-                        txtLotnumber.Text,
-                        LotInfo.Device,
-                        LotInfo.CustomerCode.ToString(),
-                        CentralTest.EngDatalogPath,
-                        CentralTest.MachineName,
-                        GetLocalIPAddress()
-                    );
-                    nxtTxtbox.Enabled = false;
-                    ShowError(message, txtBox);
-                    return;
-                }
-            }
-
+            //if (!string.IsNullOrEmpty(CORR.LBoard))
+            //{
+            //    bool ok = MatchHardware(txtBox, AllHardware);
+            //    if (!ok)
+            //    {
+            //        message = $"{hardware} Change.\nPlease Perform Test Correlation and Please Perform Binning Consistency Check.";
+            //        logMessage = $"{hardware} Change.\n{message} {txtBox.Text}, {AllHardware}";
+            //        //DataAccess da = new DataAccess();
+            //        //da.insertMasterLogs(
+            //        //    logMessage,
+            //        //    txtLotnumber.Text,
+            //        //    LotInfo.Device,
+            //        //    LotInfo.CustomerCode.ToString(),
+            //        //    CentralTest.EngDatalogPath,
+            //        //    CentralTest.MachineName,
+            //        //    GetLocalIPAddress()
+            //        //);
+            //        nxtTxtbox.Enabled = false;
+            //        ShowError(message, txtBox);
+            //        loadForm.Hide(); return;
+            //    }
+            //}
         }
 
         private void txtHIBs_KeyPress(object sender, KeyPressEventArgs e)
@@ -442,92 +497,102 @@ namespace CentralTestTPL
 
         private void txtCarrierLot_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                StartTimer();
-            }
+            //if (!timerStarted)
+            //{
+            //    timerStarted = true;
+            //    StartTimer();
+            //}
             if (e.KeyChar != (char)Keys.Enter) return;
-            timerStarted = false;
+            var loadForm = new Loading();
+            loadForm.Show();
+            //timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtCarrierLot.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid Carrier Lot. " + txtCarrierLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Carrier Lot.\nPlease Scan again.", txtCarrierLot);
-                return;
+                loadForm.Hide(); return;
             }
             else {
                 var mat = new DataAccess().AXCheckMaterial(txtCarrierLot.Text, txtCarrierID.Text);
                 if (mat.Count <= 0) {
                     new DataAccess().insertMasterLogs($"Carrier Lot not found in AX. " + txtCarrierLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                     ShowError("Carrier Lot not found in AX.\nPlease Scan again.", txtCarrierLot);
-                    return;
+                    loadForm.Hide(); return;
                 }
                 else {
                     if (AXMaterial.ErrorMsg != "")
                     {
                         new DataAccess().insertMasterLogs(AXMaterial.ErrorMsg + " " + txtCarrierLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                         ShowError(AXMaterial.ErrorMsg, txtCarrierLot);
-                        return;
+                        loadForm.Hide(); return;
                     }
                     else
                     {
-                        if(CORR.LBoard == "")
-                        {
-                            bool update = new DataAccess().UpdateHardWare(txtLBoard.Text,
-                                                            txtHIBs.Text,
-                                                            txtHIBs2.Text,
-                                                            txtHIBs3.Text,
-                                                            txtHIBs4.Text,
-                                                            txtCable.Text,
-                                                            txtCable2.Text,
-                                                            txtCable3.Text,
-                                                            txtCable4.Text);
-                            if (update) {
-                                txtCarrierLot.Enabled = false;
-                                txtCoverLot.Enabled = true;
-                                txtCoverLot.Focus();
-                                groupBox2.Enabled = false;
-                            }
-                            else {
-                                new DataAccess().insertMasterLogs($"Hardware Update Fail." + txtLBoard.Text + "," +
-                                                                                             txtHIBs.Text + "," +
-                                                                                             txtHIBs2.Text + "," +
-                                                                                             txtHIBs3.Text + "," +
-                                                                                             txtHIBs4.Text + "," +
-                                                                                             txtCable.Text + "," +
-                                                                                             txtCable2.Text + "," +
-                                                                                             txtCable3.Text + "," +
-                                                                                             txtCable4.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
-                                ShowError("Please Scan again.", txtCarrierLot);
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            txtCarrierLot.Enabled = false;
-                            txtCoverLot.Enabled = true;
-                            txtCoverLot.Focus();
-                            groupBox2.Enabled = false;
-                        }
+                        txtCarrierLot.Enabled = false;
+                        txtCoverLot.Enabled = true;
+                        txtCoverLot.Focus();
+                        groupBox2.Enabled = false;
+
+                        //if (CORR.LBoard == "")
+                        //{
+                        //    bool update = new DataAccess().UpdateHardWare(txtLBoard.Text,
+                        //                                    txtHIBs.Text,
+                        //                                    txtHIBs2.Text,
+                        //                                    txtHIBs3.Text,
+                        //                                    txtHIBs4.Text,
+                        //                                    txtCable.Text,
+                        //                                    txtCable2.Text,
+                        //                                    txtCable3.Text,
+                        //                                    txtCable4.Text);
+                        //    if (update) {
+                        //        txtCarrierLot.Enabled = false;
+                        //        txtCoverLot.Enabled = true;
+                        //        txtCoverLot.Focus();
+                        //        groupBox2.Enabled = false;
+                        //    }
+                        //    else {
+                        //        new DataAccess().insertMasterLogs($"Hardware Update Fail." + txtLBoard.Text + "," +
+                        //                                                                     txtHIBs.Text + "," +
+                        //                                                                     txtHIBs2.Text + "," +
+                        //                                                                     txtHIBs3.Text + "," +
+                        //                                                                     txtHIBs4.Text + "," +
+                        //                                                                     txtCable.Text + "," +
+                        //                                                                     txtCable2.Text + "," +
+                        //                                                                     txtCable3.Text + "," +
+                        //                                                                     txtCable4.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
+                        //        ShowError("Please Scan again.", txtCarrierLot);
+                        //        loadForm.Hide(); return;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    txtCarrierLot.Enabled = false;
+                        //    txtCoverLot.Enabled = true;
+                        //    txtCoverLot.Focus();
+                        //    groupBox2.Enabled = false;
+                        //}
                     }
                 }
+                loadForm.Hide();
             }
         }
 
         private void txtCoverLot_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                StartTimer();
-            }
+            //if (!timerStarted)
+            //{
+            //    timerStarted = true;
+            //    StartTimer();
+            //}
             if (e.KeyChar != (char)Keys.Enter) return;
-            timerStarted = false;
+            var loadForm = new Loading();
+            loadForm.Show();
+            //timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtCoverLot.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid Cover Lot. " + txtCoverLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Cover Lot.\nPlease Scan again.", txtCoverLot);
-                return;
+                loadForm.Hide(); return;
             }
             else {
                 var mat = new DataAccess().AXCheckMaterial(txtCoverLot.Text, txtCoverID.Text);
@@ -535,7 +600,7 @@ namespace CentralTestTPL
                 {
                     new DataAccess().insertMasterLogs($"Cover Lot not found in AX. " + txtCoverLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                     ShowError("Cover Lot not found in AX.\nPlease Scan again.", txtCoverLot);
-                    return;
+                    loadForm.Hide(); return;
                 }
                 else
                 {
@@ -543,7 +608,7 @@ namespace CentralTestTPL
                     {
                         new DataAccess().insertMasterLogs(AXMaterial.ErrorMsg + " " + txtCoverLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                         ShowError(AXMaterial.ErrorMsg, txtCoverLot);
-                        return;
+                        loadForm.Hide(); return;
                     }
                     else
                     {
@@ -553,22 +618,25 @@ namespace CentralTestTPL
                     }
                 }
             }
+            loadForm.Hide();
         }
 
         private void txtReelLot_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                StartTimer();
-            }
+            //if (!timerStarted)
+            //{
+            //    timerStarted = true;
+            //    StartTimer();
+            //}
             if (e.KeyChar != (char)Keys.Enter) return;
-            timerStarted = false;
+            var loadForm = new Loading();
+            loadForm.Show();
+            //timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtReelLot.Text))
             {
                 new DataAccess().insertMasterLogs($"Invalid Reel Lot. " + txtReelLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Reel Lot.\nPlease Scan again.", txtReelLot);
-                return;
+                loadForm.Hide(); return;
             }
             else {
                 var mat = new DataAccess().AXCheckMaterial(txtReelLot.Text, txtReelID.Text);
@@ -576,14 +644,14 @@ namespace CentralTestTPL
                 {
                     new DataAccess().insertMasterLogs($"Reel Lot not found in AX. " + txtReelLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                     ShowError("Reel Lot not found in AX.\nPlease Scan again.", txtReelLot);
-                    return;
+                    loadForm.Hide(); return;
                 }else
                 {
                     if (AXMaterial.ErrorMsg != "")
                     {
                         new DataAccess().insertMasterLogs(AXMaterial.ErrorMsg + " " + txtReelLot.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                         ShowError(AXMaterial.ErrorMsg, txtReelLot);
-                        return;
+                        loadForm.Hide(); return;
                     }
                     else
                     {
@@ -593,6 +661,7 @@ namespace CentralTestTPL
                     }
                 }
             }
+            loadForm.Hide();
         }
 
         private void cmbTestProg_MouseClick(object sender, MouseEventArgs e)
@@ -738,19 +807,20 @@ namespace CentralTestTPL
 
         private void txtTestProgram_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                StartTimer();
-            }
+            //if (!timerStarted)
+            //{
+            //    timerStarted = true;
+            //    StartTimer();
+            //}
             if (e.KeyChar != (char)Keys.Enter) return;
-            timerStarted = false;
+            var loadForm = new Loading();
+            loadForm.Show();
+            //timerStarted = false;
             if (cmbTestProg.SelectedItem?.ToString() != txtTestProgram.Text) {
                 new DataAccess().insertMasterLogs("Invalid Testprogram not match. " + txtTestProgram.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Testprogram not match.\nPlease Scan again.", txtTestProgram);
-                return;
+                loadForm.Hide(); return;
             } else {
-                var loadForm = new Loading(); loadForm.Show();
                 string FTPPath = LotInfo.FTPpath + CentralTest.Source2;
                 CleanLocalFolders(CentralTest.Destination);
                 if (!Directory.Exists(CentralTest.Destination)) Directory.CreateDirectory(CentralTest.Destination);
@@ -767,8 +837,8 @@ namespace CentralTestTPL
                     txtTestProgram.Enabled = false;
                     txtLotNaming.Enabled = true;
                 }
-                loadForm.Hide();
             }
+            loadForm.Hide();
         }
 
         private void txtLotNaming_KeyPress(object sender, KeyPressEventArgs e)
@@ -779,7 +849,8 @@ namespace CentralTestTPL
                 StartTimer();
             }
             if (e.KeyChar != (char)Keys.Enter) return;
-
+            var loadForm = new Loading();
+            loadForm.Show();
             timerStarted = false;
 
             var list = LotInfo.LotNaming.Split(',');
@@ -831,7 +902,7 @@ namespace CentralTestTPL
                                                        CentralTest.MachineName,
                                                        GetLocalIPAddress());
                     ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
-                    return;
+                    loadForm.Hide(); return;
                 }
 
                 if (prgresult == "QC.prg" && result != "Q")
@@ -844,7 +915,7 @@ namespace CentralTestTPL
                                                        CentralTest.MachineName,
                                                        GetLocalIPAddress());
                     ShowError("Invalid lot naming.\nPlease scan. QA Lot naming format", txtLotNaming);
-                    return;
+                    loadForm.Hide(); return;
                 }
 
                 if (prgresult == "FT.prg" && result == "Q")
@@ -857,7 +928,7 @@ namespace CentralTestTPL
                                                        CentralTest.MachineName,
                                                        GetLocalIPAddress());
                     ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
-                    return;
+                    loadForm.Hide(); return;
                 }
 
                 if (Global.TPLStage == "Retest" && result == "FT")
@@ -871,7 +942,7 @@ namespace CentralTestTPL
                                                        GetLocalIPAddress());
                     ShowError("Invalid lot naming.\nPlease scan. " + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
                     txtLotNaming.Clear();
-                    return;
+                    loadForm.Hide(); return;
                 }
 
                 var LotSeq = new DataAccess().GetLotNamingSeq(Global.CurrentTPLStage);
@@ -889,7 +960,7 @@ namespace CentralTestTPL
                 Path.GetFileNameWithoutExtension(txtTestProgram.Text),
                 LotInfo.TestProgramFolder,
                 txtTestProgram.Text,
-                txtLotNaming.Text,
+                txtLotNaming.Text+txtLotNamingSeq.Text,
                 User.Emp_Name,
                 User.Password));
 
@@ -905,6 +976,7 @@ namespace CentralTestTPL
                 new DataAccess().insertMasterLogs("Invalid lot naming. " + txtLotNaming.Text, txtLotnumber.Text, LotInfo.Device, LotInfo.CustomerCode.ToString(), "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid lot naming.\nPlease scan ." + LotInfo.TPL_Stage + " Lot naming format", txtLotNaming);
             }
+            loadForm.Hide();
         }
 
         private void btnLaunch_Click(object sender, EventArgs e)

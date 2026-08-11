@@ -86,11 +86,14 @@ namespace CentralTestTPL
                 StartTimer();
             }
             if (e.KeyChar != (char)Keys.Enter) return;
+            var loadForm = new Loading();
+            loadForm.Show();
             timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtMachine.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Tester.\nPlease Scan again.", "", "", "", "", "", GetLocalIPAddress());
                 ShowError("Invalid Tester.\nPlease Scan again.", txtMachine);
+                loadForm.Hide();
                 return;
             }
             else
@@ -125,6 +128,7 @@ namespace CentralTestTPL
                     ShowError("Tester not found in Database.\nPlease Scan again.", txtMachine);
                 }
             }
+            loadForm.Hide();
         }
 
         private void txtHandler_KeyPress(object sender, KeyPressEventArgs e)
@@ -135,11 +139,14 @@ namespace CentralTestTPL
                 StartTimer();
             }
             if (e.KeyChar != (char)Keys.Enter) return;
+            var loadForm = new Loading();
+            loadForm.Show();
             timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtHandler.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Handler.", "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Handler.\nPlease Scan again.", txtHandler);
+                loadForm.Hide();
                 return;
             }
             else
@@ -156,6 +163,7 @@ namespace CentralTestTPL
                     txtUsername.Focus();
                 }
             }
+            loadForm.Hide();
         }
 
         private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)
@@ -166,11 +174,14 @@ namespace CentralTestTPL
                 StartTimer();
             }
             if (e.KeyChar != (char)Keys.Enter) return;
+            var loadForm = new Loading();
+            loadForm.Show();
             timerStarted = false;
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 new DataAccess().insertMasterLogs("Invalid Employee Number.", "", "", "", "", CentralTest.MachineName, GetLocalIPAddress());
                 ShowError("Invalid Employee Number.\nPlease Scan again.", txtUsername);
+                loadForm.Hide();
                 return;
             }
             else
@@ -187,7 +198,7 @@ namespace CentralTestTPL
                     ShowError("Employee Number not found in Database.\nPlease Scan again.", txtUsername);
                 }
             }
-
+            loadForm.Hide();
         }
     }
 }

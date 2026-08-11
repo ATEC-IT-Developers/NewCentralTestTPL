@@ -65,6 +65,78 @@ namespace CentralTestTPL
             return machDetails;
         }
 
+        public List<Magnetic> GetNonMagneticDetails()
+        {
+            Sqlhandler.SetToEMMS1();
+            List<Magnetic> magnetDetails = new List<Magnetic>();
+            Sqlhandler.CreateParameter(1);
+            Sqlhandler.SetParameterValues(0, "@LotCode", SqlDbType.NVarChar, LotInfo.LotCode);
+
+            DataTable dt = new DataTable();
+
+            if (Sqlhandler.OpenConnection())
+            {
+                if (Sqlhandler.FillDataTable("usp_CentralTest_TPL_Melexis_Get_Non-Magnetic_Details", ref dt, CommandType.StoredProcedure))
+                {
+
+                }
+                magnetDetails = ConvertDataTable<Magnetic>(dt);
+            }
+            Sqlhandler.CloseConnection();
+            return magnetDetails;
+        }
+
+        public bool InsertNonMagneticDetails(string NonMagneticTestStandHead1,
+                                             string NonMagneticTestStandHead2,
+                                             string NonMagneticTestStandHead3,
+                                             string NonMagneticTestStandHead4,
+                                             string NonMagneticPickHead,
+                                             string MeasurementTestStandHead1,
+                                             string MeasurementTestStandHead2,
+                                             string MeasurementTestStandHead3,
+                                             string MeasurementTestStandHead4,
+                                             string MeasurementPickHead1,
+                                             string MeasurementPickHead2,
+                                             string MeasurementPickHead3,
+                                             string MeasurementPickHead4,
+                                             string MeasurementPickHead5,
+                                             string MeasurementPickHead6,
+                                             string MeasurementPickHead7,
+                                             string MeasurementPickHead8)
+        {
+            Sqlhandler.SetToEMMS1();
+            bool result = false;
+            Sqlhandler.CreateParameter(21);
+            Sqlhandler.SetParameterValues(0, "@LotCode", SqlDbType.Int, LotInfo.LotCode);
+            Sqlhandler.SetParameterValues(1, "@LotAlias", SqlDbType.NVarChar, LotInfo.LotAlias);
+            Sqlhandler.SetParameterValues(2, "@Machine", SqlDbType.NVarChar, CentralTest.MachineName);
+            Sqlhandler.SetParameterValues(3, "@NonMagneticTestStandHead1", SqlDbType.NVarChar, NonMagneticTestStandHead1);
+            Sqlhandler.SetParameterValues(4, "@NonMagneticTestStandHead2", SqlDbType.NVarChar, NonMagneticTestStandHead2);
+            Sqlhandler.SetParameterValues(5, "@NonMagneticTestStandHead3", SqlDbType.NVarChar, NonMagneticTestStandHead3);
+            Sqlhandler.SetParameterValues(6, "@NonMagneticTestStandHead4", SqlDbType.NVarChar, NonMagneticTestStandHead4);
+            Sqlhandler.SetParameterValues(7, "@NonMagneticPickHead", SqlDbType.NVarChar, NonMagneticPickHead);
+            Sqlhandler.SetParameterValues(8, "@MeasurementTestStandHead1", SqlDbType.NVarChar, MeasurementTestStandHead1);
+            Sqlhandler.SetParameterValues(9, "@MeasurementTestStandHead2", SqlDbType.NVarChar, MeasurementTestStandHead2);
+            Sqlhandler.SetParameterValues(10, "@MeasurementTestStandHead3", SqlDbType.NVarChar, MeasurementTestStandHead3);
+            Sqlhandler.SetParameterValues(11, "@MeasurementTestStandHead4", SqlDbType.NVarChar, MeasurementTestStandHead4);
+            Sqlhandler.SetParameterValues(12, "@MeasurementPickHead1", SqlDbType.NVarChar, MeasurementPickHead1);
+            Sqlhandler.SetParameterValues(13, "@MeasurementPickHead2", SqlDbType.NVarChar, MeasurementPickHead2);
+            Sqlhandler.SetParameterValues(14, "@MeasurementPickHead3", SqlDbType.NVarChar, MeasurementPickHead3);
+            Sqlhandler.SetParameterValues(15, "@MeasurementPickHead4", SqlDbType.NVarChar, MeasurementPickHead4);
+            Sqlhandler.SetParameterValues(16, "@MeasurementPickHead5", SqlDbType.NVarChar, MeasurementPickHead5);
+            Sqlhandler.SetParameterValues(17, "@MeasurementPickHead6", SqlDbType.NVarChar, MeasurementPickHead6);
+            Sqlhandler.SetParameterValues(18, "@MeasurementPickHead7", SqlDbType.NVarChar, MeasurementPickHead7);
+            Sqlhandler.SetParameterValues(19, "@MeasurementPickHead8", SqlDbType.NVarChar, MeasurementPickHead8);
+            Sqlhandler.SetParameterValues(20, "@Emp", SqlDbType.NVarChar, User.Emp_No);
+            if (Sqlhandler.OpenConnection()) {
+                if (Sqlhandler.ExecuteNonQuery("usp_CentralTest_TPL_Melexis_Insert_Non-Magnetic_Details", CommandType.StoredProcedure))
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         public List<LotInfo> SelectLotInfo(string LotNo)
         {
             Sqlhandler.SetToEMMS1();

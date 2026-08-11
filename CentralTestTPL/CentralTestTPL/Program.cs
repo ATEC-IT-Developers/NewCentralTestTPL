@@ -19,6 +19,7 @@ namespace CentralTestTPL
             
             Application.Run(new Login());
             //Application.Run(new Main());
+            //Application.Run(new MLX_Magnetic());
         }
     }
 }

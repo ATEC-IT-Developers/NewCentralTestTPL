@@ -108,7 +108,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(704, 319);
+            this.groupBox1.Size = new System.Drawing.Size(559, 319);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Lot Details";
@@ -171,7 +171,7 @@
             this.txtDetailLead.Location = new System.Drawing.Point(185, 261);
             this.txtDetailLead.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDetailLead.Name = "txtDetailLead";
-            this.txtDetailLead.Size = new System.Drawing.Size(497, 34);
+            this.txtDetailLead.Size = new System.Drawing.Size(351, 34);
             this.txtDetailLead.TabIndex = 10;
             // 
             // txtDetailPkg
@@ -181,7 +181,7 @@
             this.txtDetailPkg.Location = new System.Drawing.Point(185, 217);
             this.txtDetailPkg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDetailPkg.Name = "txtDetailPkg";
-            this.txtDetailPkg.Size = new System.Drawing.Size(497, 34);
+            this.txtDetailPkg.Size = new System.Drawing.Size(351, 34);
             this.txtDetailPkg.TabIndex = 9;
             // 
             // txtDetailProduct
@@ -191,7 +191,7 @@
             this.txtDetailProduct.Location = new System.Drawing.Point(185, 172);
             this.txtDetailProduct.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDetailProduct.Name = "txtDetailProduct";
-            this.txtDetailProduct.Size = new System.Drawing.Size(497, 34);
+            this.txtDetailProduct.Size = new System.Drawing.Size(351, 34);
             this.txtDetailProduct.TabIndex = 8;
             // 
             // txtDetailDevice
@@ -201,7 +201,7 @@
             this.txtDetailDevice.Location = new System.Drawing.Point(185, 127);
             this.txtDetailDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDetailDevice.Name = "txtDetailDevice";
-            this.txtDetailDevice.Size = new System.Drawing.Size(497, 34);
+            this.txtDetailDevice.Size = new System.Drawing.Size(351, 34);
             this.txtDetailDevice.TabIndex = 7;
             // 
             // txtDetailQty
@@ -211,7 +211,7 @@
             this.txtDetailQty.Location = new System.Drawing.Point(185, 82);
             this.txtDetailQty.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDetailQty.Name = "txtDetailQty";
-            this.txtDetailQty.Size = new System.Drawing.Size(497, 34);
+            this.txtDetailQty.Size = new System.Drawing.Size(351, 34);
             this.txtDetailQty.TabIndex = 6;
             // 
             // txtDetailLotnumber
@@ -221,7 +221,7 @@
             this.txtDetailLotnumber.Location = new System.Drawing.Point(185, 37);
             this.txtDetailLotnumber.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDetailLotnumber.Name = "txtDetailLotnumber";
-            this.txtDetailLotnumber.Size = new System.Drawing.Size(497, 34);
+            this.txtDetailLotnumber.Size = new System.Drawing.Size(351, 34);
             this.txtDetailLotnumber.TabIndex = 5;
             // 
             // label3
@@ -259,10 +259,10 @@
             // 
             this.txtTestProgram.Enabled = false;
             this.txtTestProgram.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtTestProgram.Location = new System.Drawing.Point(1015, 402);
+            this.txtTestProgram.Location = new System.Drawing.Point(825, 485);
             this.txtTestProgram.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtTestProgram.Name = "txtTestProgram";
-            this.txtTestProgram.Size = new System.Drawing.Size(440, 34);
+            this.txtTestProgram.Size = new System.Drawing.Size(311, 34);
             this.txtTestProgram.TabIndex = 0;
             this.txtTestProgram.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTestProgram_KeyPress);
             // 
@@ -270,7 +270,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(787, 411);
+            this.label2.Location = new System.Drawing.Point(597, 494);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(198, 25);
             this.label2.TabIndex = 3;
@@ -281,7 +281,7 @@
             this.btnLaunch.BackColor = System.Drawing.Color.Gray;
             this.btnLaunch.Enabled = false;
             this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLaunch.Location = new System.Drawing.Point(925, 529);
+            this.btnLaunch.Location = new System.Drawing.Point(661, 602);
             this.btnLaunch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLaunch.Name = "btnLaunch";
             this.btnLaunch.Size = new System.Drawing.Size(432, 81);
@@ -294,7 +294,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(771, 350);
+            this.label9.Location = new System.Drawing.Point(581, 433);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(209, 25);
             this.label9.TabIndex = 3;
@@ -306,10 +306,10 @@
             this.cmbTestProg.Enabled = false;
             this.cmbTestProg.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.cmbTestProg.FormattingEnabled = true;
-            this.cmbTestProg.Location = new System.Drawing.Point(1013, 341);
+            this.cmbTestProg.Location = new System.Drawing.Point(823, 424);
             this.cmbTestProg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbTestProg.Name = "cmbTestProg";
-            this.cmbTestProg.Size = new System.Drawing.Size(440, 37);
+            this.cmbTestProg.Size = new System.Drawing.Size(311, 37);
             this.cmbTestProg.TabIndex = 5;
             this.cmbTestProg.SelectedIndexChanged += new System.EventHandler(this.cmbTestProg_SelectedIndexChanged);
             this.cmbTestProg.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmbTestProg_MouseClick);
@@ -339,7 +339,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(704, 319);
+            this.groupBox2.Size = new System.Drawing.Size(559, 319);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Hardware Validation";
@@ -348,7 +348,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(397, 239);
+            this.label23.Location = new System.Drawing.Point(297, 240);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(87, 25);
             this.label23.TabIndex = 11;
@@ -358,7 +358,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(397, 198);
+            this.label22.Location = new System.Drawing.Point(297, 199);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(87, 25);
             this.label22.TabIndex = 10;
@@ -379,10 +379,10 @@
             this.txtCable3.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCable3.Enabled = false;
             this.txtCable3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtCable3.Location = new System.Drawing.Point(520, 187);
+            this.txtCable3.Location = new System.Drawing.Point(420, 194);
             this.txtCable3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCable3.Name = "txtCable3";
-            this.txtCable3.Size = new System.Drawing.Size(163, 34);
+            this.txtCable3.Size = new System.Drawing.Size(96, 34);
             this.txtCable3.TabIndex = 8;
             this.txtCable3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCable3_KeyPress);
             // 
@@ -391,10 +391,10 @@
             this.txtCable4.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCable4.Enabled = false;
             this.txtCable4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtCable4.Location = new System.Drawing.Point(520, 228);
+            this.txtCable4.Location = new System.Drawing.Point(420, 235);
             this.txtCable4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCable4.Name = "txtCable4";
-            this.txtCable4.Size = new System.Drawing.Size(163, 34);
+            this.txtCable4.Size = new System.Drawing.Size(96, 34);
             this.txtCable4.TabIndex = 8;
             this.txtCable4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCable4_KeyPress);
             // 
@@ -403,10 +403,10 @@
             this.txtCable2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCable2.Enabled = false;
             this.txtCable2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtCable2.Location = new System.Drawing.Point(185, 228);
+            this.txtCable2.Location = new System.Drawing.Point(135, 235);
             this.txtCable2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCable2.Name = "txtCable2";
-            this.txtCable2.Size = new System.Drawing.Size(149, 34);
+            this.txtCable2.Size = new System.Drawing.Size(99, 34);
             this.txtCable2.TabIndex = 8;
             this.txtCable2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCable2_KeyPress);
             // 
@@ -415,10 +415,10 @@
             this.txtCable.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCable.Enabled = false;
             this.txtCable.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtCable.Location = new System.Drawing.Point(185, 187);
+            this.txtCable.Location = new System.Drawing.Point(135, 194);
             this.txtCable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCable.Name = "txtCable";
-            this.txtCable.Size = new System.Drawing.Size(149, 34);
+            this.txtCable.Size = new System.Drawing.Size(99, 34);
             this.txtCable.TabIndex = 8;
             this.txtCable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCable_KeyPress);
             // 
@@ -427,10 +427,10 @@
             this.txtHIBs3.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtHIBs3.Enabled = false;
             this.txtHIBs3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtHIBs3.Location = new System.Drawing.Point(520, 86);
+            this.txtHIBs3.Location = new System.Drawing.Point(420, 93);
             this.txtHIBs3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtHIBs3.Name = "txtHIBs3";
-            this.txtHIBs3.Size = new System.Drawing.Size(163, 34);
+            this.txtHIBs3.Size = new System.Drawing.Size(96, 34);
             this.txtHIBs3.TabIndex = 7;
             this.txtHIBs3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHIBs3_KeyPress);
             // 
@@ -439,10 +439,10 @@
             this.txtHIBs4.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtHIBs4.Enabled = false;
             this.txtHIBs4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtHIBs4.Location = new System.Drawing.Point(520, 127);
+            this.txtHIBs4.Location = new System.Drawing.Point(420, 134);
             this.txtHIBs4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtHIBs4.Name = "txtHIBs4";
-            this.txtHIBs4.Size = new System.Drawing.Size(163, 34);
+            this.txtHIBs4.Size = new System.Drawing.Size(96, 34);
             this.txtHIBs4.TabIndex = 7;
             this.txtHIBs4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHIBs4_KeyPress);
             // 
@@ -451,21 +451,22 @@
             this.txtHIBs2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtHIBs2.Enabled = false;
             this.txtHIBs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtHIBs2.Location = new System.Drawing.Point(185, 127);
+            this.txtHIBs2.Location = new System.Drawing.Point(135, 134);
             this.txtHIBs2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtHIBs2.Name = "txtHIBs2";
-            this.txtHIBs2.Size = new System.Drawing.Size(149, 34);
+            this.txtHIBs2.Size = new System.Drawing.Size(99, 34);
             this.txtHIBs2.TabIndex = 7;
             this.txtHIBs2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHIBs2_KeyPress);
             // 
             // txtHIBs
             // 
             this.txtHIBs.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtHIBs.Enabled = false;
             this.txtHIBs.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtHIBs.Location = new System.Drawing.Point(185, 86);
+            this.txtHIBs.Location = new System.Drawing.Point(135, 93);
             this.txtHIBs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtHIBs.Name = "txtHIBs";
-            this.txtHIBs.Size = new System.Drawing.Size(149, 34);
+            this.txtHIBs.Size = new System.Drawing.Size(99, 34);
             this.txtHIBs.TabIndex = 7;
             this.txtHIBs.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHIBs_KeyPress);
             // 
@@ -477,7 +478,7 @@
             this.txtLBoard.Location = new System.Drawing.Point(185, 39);
             this.txtLBoard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLBoard.Name = "txtLBoard";
-            this.txtLBoard.Size = new System.Drawing.Size(497, 34);
+            this.txtLBoard.Size = new System.Drawing.Size(351, 34);
             this.txtLBoard.TabIndex = 6;
             this.txtLBoard.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLBoard_KeyPress);
             // 
@@ -495,7 +496,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(405, 135);
+            this.label20.Location = new System.Drawing.Point(305, 136);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(76, 25);
             this.label20.TabIndex = 5;
@@ -505,7 +506,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(405, 97);
+            this.label19.Location = new System.Drawing.Point(305, 98);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(76, 25);
             this.label19.TabIndex = 5;
@@ -535,7 +536,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(23, 37);
+            this.label10.Location = new System.Drawing.Point(15, 48);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(123, 25);
             this.label10.TabIndex = 5;
@@ -555,11 +556,11 @@
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.groupBox3.Location = new System.Drawing.Point(732, 73);
+            this.groupBox3.Location = new System.Drawing.Point(602, 71);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(820, 219);
+            this.groupBox3.Size = new System.Drawing.Size(631, 310);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Material Validation";
@@ -568,7 +569,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(593, 32);
+            this.label17.Location = new System.Drawing.Point(418, 28);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(116, 25);
             this.label17.TabIndex = 13;
@@ -578,7 +579,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(281, 32);
+            this.label16.Location = new System.Drawing.Point(216, 28);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(125, 25);
             this.label16.TabIndex = 12;
@@ -592,7 +593,7 @@
             this.txtReelLot.Location = new System.Drawing.Point(211, 169);
             this.txtReelLot.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtReelLot.Name = "txtReelLot";
-            this.txtReelLot.Size = new System.Drawing.Size(280, 34);
+            this.txtReelLot.Size = new System.Drawing.Size(176, 34);
             this.txtReelLot.TabIndex = 11;
             this.txtReelLot.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtReelLot_KeyPress);
             // 
@@ -604,7 +605,7 @@
             this.txtCoverLot.Location = new System.Drawing.Point(211, 119);
             this.txtCoverLot.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCoverLot.Name = "txtCoverLot";
-            this.txtCoverLot.Size = new System.Drawing.Size(280, 34);
+            this.txtCoverLot.Size = new System.Drawing.Size(176, 34);
             this.txtCoverLot.TabIndex = 10;
             this.txtCoverLot.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCoverLot_KeyPress);
             // 
@@ -616,38 +617,39 @@
             this.txtCarrierLot.Location = new System.Drawing.Point(211, 76);
             this.txtCarrierLot.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCarrierLot.Name = "txtCarrierLot";
-            this.txtCarrierLot.Size = new System.Drawing.Size(280, 34);
+            this.txtCarrierLot.Size = new System.Drawing.Size(176, 34);
             this.txtCarrierLot.TabIndex = 9;
+            this.txtCarrierLot.TabStop = false;
             this.txtCarrierLot.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCarrierLot_KeyPress);
             // 
             // txtReelID
             // 
             this.txtReelID.Enabled = false;
             this.txtReelID.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtReelID.Location = new System.Drawing.Point(521, 169);
+            this.txtReelID.Location = new System.Drawing.Point(408, 168);
             this.txtReelID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtReelID.Name = "txtReelID";
-            this.txtReelID.Size = new System.Drawing.Size(275, 34);
+            this.txtReelID.Size = new System.Drawing.Size(205, 34);
             this.txtReelID.TabIndex = 8;
             // 
             // txtCoverID
             // 
             this.txtCoverID.Enabled = false;
             this.txtCoverID.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtCoverID.Location = new System.Drawing.Point(521, 119);
+            this.txtCoverID.Location = new System.Drawing.Point(408, 118);
             this.txtCoverID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCoverID.Name = "txtCoverID";
-            this.txtCoverID.Size = new System.Drawing.Size(275, 34);
+            this.txtCoverID.Size = new System.Drawing.Size(205, 34);
             this.txtCoverID.TabIndex = 7;
             // 
             // txtCarrierID
             // 
             this.txtCarrierID.Enabled = false;
             this.txtCarrierID.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtCarrierID.Location = new System.Drawing.Point(521, 76);
+            this.txtCarrierID.Location = new System.Drawing.Point(408, 75);
             this.txtCarrierID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCarrierID.Name = "txtCarrierID";
-            this.txtCarrierID.Size = new System.Drawing.Size(275, 34);
+            this.txtCarrierID.Size = new System.Drawing.Size(205, 34);
             this.txtCarrierID.TabIndex = 6;
             // 
             // label13
@@ -684,7 +686,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(808, 470);
+            this.label24.Location = new System.Drawing.Point(618, 553);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(177, 25);
             this.label24.TabIndex = 3;
@@ -695,10 +697,10 @@
             this.txtLotNaming.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtLotNaming.Enabled = false;
             this.txtLotNaming.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtLotNaming.Location = new System.Drawing.Point(1016, 459);
+            this.txtLotNaming.Location = new System.Drawing.Point(826, 542);
             this.txtLotNaming.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLotNaming.Name = "txtLotNaming";
-            this.txtLotNaming.Size = new System.Drawing.Size(437, 34);
+            this.txtLotNaming.Size = new System.Drawing.Size(308, 34);
             this.txtLotNaming.TabIndex = 0;
             this.txtLotNaming.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLotNaming_KeyPress);
             // 
@@ -707,7 +709,7 @@
             this.txtLotNamingSeq.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtLotNamingSeq.Enabled = false;
             this.txtLotNamingSeq.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.txtLotNamingSeq.Location = new System.Drawing.Point(1464, 459);
+            this.txtLotNamingSeq.Location = new System.Drawing.Point(1151, 542);
             this.txtLotNamingSeq.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLotNamingSeq.Name = "txtLotNamingSeq";
             this.txtLotNamingSeq.Size = new System.Drawing.Size(64, 34);
@@ -718,7 +720,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1567, 726);
+            this.ClientSize = new System.Drawing.Size(1259, 735);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmbTestProg);
@@ -732,7 +734,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtLotnumber);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;

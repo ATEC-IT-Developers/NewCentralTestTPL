@@ -59,6 +59,7 @@ namespace CentralTestTPL
 
     public class LotInfo
     {
+        public static string LotAlias { get; set; }
         public static string LotNumber { get; set; }
         public static Int64 LotCode { get; set; }
         public static Int64 CustomerCode { get; set; }
@@ -82,6 +83,7 @@ namespace CentralTestTPL
         public static string LotNaming { get; set; }
         public static string TPL_Stage { get; set; }
         public static Boolean FirstTest { get; set; }
+        public static Boolean mlxNonMagnetic { get; set; }
         public static string msg { get; set; }
     }
 
@@ -124,6 +126,15 @@ namespace CentralTestTPL
         public static string MachineModel { get; set; }
     }
 
+    public class Magnetic
+    {
+        public static string TestHead1 { get; set; }
+        public static string TestHead2 { get; set; }
+        public static string TestHead3 { get; set; }
+        public static string TestHead4 { get; set; }
+        public static string PickUpHead { get; set; }
+    }
+
     public class Logs
     {
         public static string Description { get; set; }
@@ -148,6 +159,7 @@ namespace CentralTestTPL
         public static string Handler { get; set; }
         public static string Application2 { get; set; }
         public static string EngDatalogPath { get; set; }
+        public static string CustomerCodes { get; set; }
     }
 
     public class AXMaterial
